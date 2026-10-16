@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+const { email } = site.contact;
+---
+
+<BaseLayout title="Politica de confidențialitate" description={`Cum prelucrează ${site.name} datele personale pe acest site.`}>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Acasă</a> / Confidențialitate</nav>
+      <h1>Politica de confidențialitate</h1>
+      <p>Pe scurt: acest site nu folosește cookie-uri și nu vă urmărește.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container prose">
+      <h2>Cine suntem</h2>
+      <p>
+        Site-ul {new URL(site.url).hostname} aparține {site.name}, care este operatorul datelor cu caracter personal
+        în sensul Regulamentului (UE) 2016/679 (GDPR).
+      </p>
+
+      <h2>Ce date colectează acest site</h2>
+      <ul>
+        <li>Site-ul nu folosește cookie-uri și nu conține instrumente de publicitate sau de urmărire.</li>
+        <li>Site-ul nu conține formulare prin care să ne transmiteți date.</li>
+        <li>
+          Furnizorul de găzduire (Cloudflare) prelucrează date tehnice, precum adresa IP, strict pentru livrarea și
+          securitatea site-ului. Putem folosi statistici de trafic agregate, fără cookie-uri.
+        </li>
+      </ul>
+
+      <h2>Documentele publicate</h2>
+      <p>
+        Documentele din secțiunea <a href="/documente/">Documente</a> sunt publicate în temeiul obligațiilor legale de
+        transparență ale liceului. Datele personale care nu trebuie făcute publice sunt anonimizate înainte de
+        publicare. Dacă observați într-un document date personale care nu ar trebui să fie publice, vă rugăm să ne
+        anunțați.
+      </p>
+
+      <h2>Drepturile dumneavoastră</h2>
+      <p>
+        Conform GDPR, aveți dreptul de acces, de rectificare, de ștergere, de restricționare a prelucrării și de
+        opoziție, precum și dreptul de a depune o plângere la Autoritatea Națională de Supraveghere a Prelucrării
+        Datelor cu Caracter Personal (<a href="https://www.dataprotection.ro" rel="noopener">dataprotection.ro</a>).
+      </p>
+
+      <h2>Contact</h2>
+      {
+        email ? (
+          <p>
+            Pentru orice solicitare privind datele personale, scrieți-ne la <a href={`mailto:${email}`}>{email}</a>.
+          </p>
+        ) : (
+          <p>Pentru orice solicitare privind datele personale, contactați secretariatul liceului.</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,249 @@
+---
+import DocumentList from '../components/DocumentList.astro';
+import Icon from '../components/Icon.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { getDocuments } from '../lib/documents';
+
+const latestDocuments = (await getDocuments()).slice(0, 5);
+const { contact } = site;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'HighSchool',
+  name: site.name,
+  url: site.url,
+  description: site.description,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Caransebeș',
+    addressRegion: 'Caraș-Severin',
+    addressCountry: 'RO',
+  },
+  ...(contact.email && { email: contact.email }),
+  ...(contact.phone && { telephone: contact.phone }),
+};
+---
+
+<BaseLayout>
+  <script is:inline type="application/ld+json" slot="head" set:html={JSON.stringify(structuredData)} />
+
+  <section class="hero">
+    <svg class="hero-art" viewBox="0 0 1200 640" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="trail" x1="0" x2="1">
+          <stop offset="0" stop-color="#8ac6f3" stop-opacity="0"></stop>
+          <stop offset="1" stop-color="#8ac6f3" stop-opacity="0.75"></stop>
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="#fff" stroke-opacity="0.06">
+        <circle cx="960" cy="250" r="120"></circle>
+        <circle cx="960" cy="250" r="230"></circle>
+        <circle cx="960" cy="250" r="340"></circle>
+      </g>
+      <path
+        d="M-20 600 C 320 560, 660 450, 900 280"
+        fill="none"
+        stroke="url(#trail)"
+        stroke-width="3"
+        stroke-dasharray="2 14"
+        stroke-linecap="round"></path>
+      <path
+        fill="#8ac6f3"
+        fill-opacity="0.9"
+        transform="translate(948 246) rotate(55) scale(5) translate(-12 -12)"
+        d="M12 2c.8 0 1.4.9 1.4 2v5.2l8.6 4.4v1.8l-8.6-2.2v5.2l2.6 1.8v1.6l-4-1-4 1v-1.6l2.6-1.8v-5.2L2 15.4v-1.8l8.6-4.4V4c0-1.1.6-2 1.4-2z"
+      ></path>
+    </svg>
+
+    <div class="container">
+      <span class="eyebrow"><Icon name="plane" /> Banat Airport · Caransebeș</span>
+      <h1><span>Liceul Tehnologic</span> „Max Ausnit” Caransebeș</h1>
+      <p class="hero-lead">
+        Primul liceu privat de aviație din România. Pregătim tehnicienii care vor întreține aeronavele de mâine, cu
+        ore de practică direct pe aeroport.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#admitere">Admitere <Icon name="arrow" /></a>
+        <a class="btn btn-ghost" href="/documente/">Documente de interes public</a>
+      </div>
+      <ul class="hero-facts">
+        <li><strong>Pe aeroport</strong><span>Pregătire practică în hangar, pe aeronave reale</span></li>
+        <li><strong>Standarde europene</strong><span>Pregătire orientată spre licența EASA Part-66</span></li>
+        <li><strong>Din 2018</strong><span>Liceu de aviație în inima Banatului</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="despre">
+    <div class="container split">
+      <div>
+        <span class="kicker">Despre liceu</span>
+        <h2>O școală de aviație chiar pe aeroport</h2>
+        <p>
+          Liceul Tehnologic „Max Ausnit” Caransebeș este un liceu privat cu profil aeronautic, deschis în 2018 pe
+          aeroportul din Caransebeș. Elevii învață într-un mediu aeronautic real, alături de specialiști care lucrează
+          zilnic cu aeronave.
+        </p>
+        <p>
+          Pe lângă disciplinele de liceu, elevii primesc pregătire tehnică de specialitate și fac practică în hangar,
+          pentru o carieră în întreținerea aeronavelor, în România și în Europa.
+        </p>
+        <p>Liceul poartă numele industriașului interbelic Max Ausnit.</p>
+      </div>
+      <aside class="fact-card" aria-label="Pe scurt">
+        <ul>
+          <li><strong>Primul</strong><span>liceu privat de aviație din România</span></li>
+          <li><strong>2018</strong><span>anul în care a început prima generație de elevi</span></li>
+          <li><strong>Part-66</strong><span>pregătire pentru licența de mecanic aviație, categoriile A și B</span></li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="ce-inveti">
+    <div class="container">
+      <span class="kicker">Ce înveți</span>
+      <h2>Pregătire pentru o carieră în aviație</h2>
+      <p class="section-intro">
+        Programa îmbină disciplinele de liceu cu pregătirea tehnică de specialitate, orientată spre meseria de mecanic
+        de întreținere aeronave.
+      </p>
+      <div class="cards">
+        <article class="card">
+          <div class="card-icon"><Icon name="plane" /></div>
+          <h3>Practică pe aeronave</h3>
+          <p>Inspecții, nituire și lucrări de întreținere, în hangar și pe platforma aeroportului.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon"><Icon name="wrench" /></div>
+          <h3>Mecanică și electrică</h3>
+          <p>Mecanică, circuite electrice și sistemele aeronavei, de la teorie la atelier.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon"><Icon name="tower" /></div>
+          <h3>Viața unui aeroport</h3>
+          <p>Cum funcționează un aeroport: controlul traficului aerian și serviciile de la sol.</p>
+        </article>
+        <article class="card">
+          <div class="card-icon"><Icon name="badge" /></div>
+          <h3>Spre licența Part-66</h3>
+          <p>Pregătire în acord cu cerințele europene pentru mecanicii de aviație, categoriile A și B.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="admitere">
+    <div class="container">
+      <div class="admission">
+        <div>
+          <span class="kicker">Admitere</span>
+          <h2>Vrei să devii tehnician de aviație?</h2>
+          <p>
+            Liceul primește elevi în clasa a IX-a, după absolvirea gimnaziului. Oferta educațională, calendarul și
+            condițiile de înscriere sunt publicate în secțiunea de documente.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/documente/#oferta-admitere">Documente de admitere</a>
+            <a class="btn btn-ghost" href="#contact">Contactează-ne</a>
+          </div>
+        </div>
+        <ol class="steps">
+          <li>
+            <div><strong>Consultă oferta</strong><span>Citește oferta educațională și calendarul admiterii.</span></div>
+          </li>
+          <li>
+            <div><strong>Ia legătura cu noi</strong><span>Secretariatul îți răspunde la întrebări despre înscriere.</span></div>
+          </li>
+          <li>
+            <div><strong>Înscrie-te</strong><span>Depune dosarul în perioada stabilită în calendarul admiterii.</span></div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="documente">
+    <div class="container">
+      <span class="kicker">Transparență</span>
+      <h2>Documente de interes public</h2>
+      <p class="section-intro">Regulamente, rapoarte, hotărâri și alte documente publicate conform legii.</p>
+      <div class="section-footer">
+        {
+          latestDocuments.length > 0 ? (
+            <DocumentList documents={latestDocuments} showCategory />
+          ) : (
+            <div class="empty">
+              <p>Documentele vor fi publicate în curând.</p>
+            </div>
+          )
+        }
+      </div>
+      <div class="section-footer">
+        <a class="btn btn-outline" href="/documente/">Toate documentele <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container">
+      <span class="kicker">Contact</span>
+      <h2>Ne găsești pe aeroport</h2>
+      <p class="section-intro">Pentru informații despre admitere, documente sau vizite, contactează secretariatul liceului.</p>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <div class="card-icon"><Icon name="pin" /></div>
+          <div>
+            <h3>Adresă</h3>
+            <p>{contact.address}</p>
+            <p><a href={contact.mapUrl} target="_blank" rel="noopener">Deschide în hartă</a></p>
+          </div>
+        </div>
+        {
+          contact.phone && (
+            <div class="contact-item">
+              <div class="card-icon">
+                <Icon name="phone" />
+              </div>
+              <div>
+                <h3>Telefon</h3>
+                <p>
+                  <a href={`tel:${contact.phone.replace(/[^+\d]/g, '')}`}>{contact.phone}</a>
+                </p>
+              </div>
+            </div>
+          )
+        }
+        {
+          contact.email && (
+            <div class="contact-item">
+              <div class="card-icon">
+                <Icon name="mail" />
+              </div>
+              <div>
+                <h3>E-mail</h3>
+                <p>
+                  <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                </p>
+              </div>
+            </div>
+          )
+        }
+        {
+          contact.hours && (
+            <div class="contact-item">
+              <div class="card-icon">
+                <Icon name="clock" />
+              </div>
+              <div>
+                <h3>Program secretariat</h3>
+                <p>{contact.hours}</p>
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

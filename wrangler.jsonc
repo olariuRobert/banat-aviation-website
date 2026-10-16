@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "banat-aviation-website",
+  // The Worker only handles GitHub sign-in for the admin page (/oauth/*).
+  // Everything else is served straight from the static build in ./dist.
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/oauth/*"]
+  },
+  "observability": {
+    "enabled": true
+  }
+}

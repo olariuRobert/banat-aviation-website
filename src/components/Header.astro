@@ -1,0 +1,57 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/" aria-label="Liceul Tehnologic „Max Ausnit” Caransebeș, pagina principală">
+      <Logo />
+      <span class="brand-text">
+        <small>Liceul Tehnologic</small>
+        <strong>„Max Ausnit” Caransebeș</strong>
+      </span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="Navigare principală">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a class="nav-link" href={item.href} aria-current={item.href === current ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <details class="nav-mobile">
+      <summary aria-label="Meniu"><Icon name="menu" /></summary>
+      <nav aria-label="Navigare principală">
+        <ul>
+          {
+            nav.map((item) => (
+              <li>
+                <a class="nav-link" href={item.href} aria-current={item.href === current ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<script>
+  // Close the mobile menu after jumping to a section on the same page.
+  document.querySelectorAll<HTMLAnchorElement>('.nav-mobile a').forEach((link) => {
+    link.addEventListener('click', () => link.closest('details')?.removeAttribute('open'));
+  });
+</script>

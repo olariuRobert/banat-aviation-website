@@ -1,0 +1,32 @@
+---
+import { nav, site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-name">{site.name}</p>
+        <p>Liceu tehnologic de aviație<br />{site.contact.address}</p>
+      </div>
+      <nav aria-label="Navigare în subsol">
+        <ul class="footer-links">
+          {
+            nav.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+          <li><a href="/confidentialitate/">Confidențialitate</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© {year} {site.name}</span>
+      <span>Site fără cookie-uri</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,55 @@
+---
+import DocumentList from '../components/DocumentList.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+import { getDocumentGroups } from '../lib/documents';
+
+const groups = await getDocumentGroups();
+---
+
+<BaseLayout
+  title="Documente de interes public"
+  description={`Documentele de interes public ale ${site.name}: regulamente, rapoarte, hotărâri, admitere.`}
+>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Acasă</a> / Documente</nav>
+      <h1>Documente de interes public</h1>
+      <p>
+        Documentele publicate de {site.name}, conform obligațiilor legale. Dacă nu găsiți un document, contactați
+        secretariatul liceului.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {
+        groups.length > 0 ? (
+          <>
+            <ul class="chips" aria-label="Categorii">
+              {groups.map((group) => (
+                <li>
+                  <a class="chip" href={`#${group.id}`}>
+                    {group.label} <span>{group.documents.length}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {groups.map((group) => (
+              <section class="doc-group" id={group.id} aria-labelledby={`${group.id}-titlu`}>
+                <h2 id={`${group.id}-titlu`}>{group.label}</h2>
+                {group.hint && <p class="hint">{group.hint}</p>}
+                <DocumentList documents={group.documents} />
+              </section>
+            ))}
+          </>
+        ) : (
+          <div class="empty">
+            <p>Momentan nu sunt documente publicate. Revenim în curând.</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

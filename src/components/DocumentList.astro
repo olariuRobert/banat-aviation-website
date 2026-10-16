@@ -1,0 +1,59 @@
+---
+import Icon from './Icon.astro';
+import { getCategory } from '../data/categories';
+import { formatDate, formatSize, isoDate, type DocumentItem } from '../lib/documents';
+
+interface Props {
+  documents: DocumentItem[];
+  /** Show each document's category (used where categories are mixed, e.g. on the home page). */
+  showCategory?: boolean;
+}
+
+const { documents, showCategory = false } = Astro.props;
+---
+
+<ul class="doc-list">
+  {
+    documents.map((doc) => (
+      <li class="doc">
+        <span class="doc-type" data-type={doc.type.toLowerCase()} aria-hidden="true">
+          {doc.type}
+        </span>
+        <div class="doc-body">
+          <a
+            class="doc-title"
+            href={doc.href}
+            target={doc.external ? '_blank' : undefined}
+            rel={doc.external ? 'noopener' : undefined}
+          >
+            {doc.title}
+          </a>
+          {doc.description && <p class="doc-desc">{doc.description}</p>}
+          <p class="doc-meta">
+            {showCategory && <span>{getCategory(doc.category).label}</span>}
+            <span>
+              Publicat: <time datetime={isoDate(doc.date)}>{formatDate(doc.date)}</time>
+            </span>
+            <span>
+              {doc.type}
+              {doc.size !== undefined && ` · ${formatSize(doc.size)}`}
+            </span>
+          </p>
+        </div>
+        {doc.external ? (
+          <a class="btn btn-outline btn-sm doc-action" href={doc.href} target="_blank" rel="noopener">
+            <Icon name="external" />
+            <span>Deschide</span>
+            <span class="visually-hidden">{doc.title} (se deschide într-o filă nouă)</span>
+          </a>
+        ) : (
+          <a class="btn btn-outline btn-sm doc-action" href={doc.href} download>
+            <Icon name="download" />
+            <span>Descarcă</span>
+            <span class="visually-hidden">{doc.title}</span>
+          </a>
+        )}
+      </li>
+    ))
+  }
+</ul>
